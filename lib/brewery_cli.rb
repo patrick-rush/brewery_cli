@@ -1,7 +1,7 @@
-require_relative "brewery_cli/version"
-require_relative "brewery_cli/api"
-require_relative "brewery_cli/cli"
-require_relative "brewery_cli/brewery"
+require "brewery_cli/version"
+require "brewery_cli/api"
+require "brewery_cli/cli"
+require "brewery_cli/brewery"
 
 module BreweryCli
   class Error < StandardError; end

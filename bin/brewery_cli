@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "bundler"
+require "bundler/setup"
+require_relative "../lib/brewery_cli"
+
+BreweryCli::CLI.new.start

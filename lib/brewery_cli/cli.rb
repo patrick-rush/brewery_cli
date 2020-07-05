@@ -1,9 +1,7 @@
 # TODO
 
-# FIX VALID_ZIP? TO NOT ALLOW LETTERS
 # CONSIDER REMOVING THE PART ABOUT ASKING THE USER IF THEY MEANT TO ENTER A ZIP 
 # FIND A WAY TO TELL THE USER WHERE THEY ARE SEARCHING 
-# FIGURE OUT WHY EXIT DOESN'T WORK AFTER INVALID ENTRY
 
 
 module BreweryCli
@@ -51,7 +49,13 @@ module BreweryCli
         end
 
         def invalid_entry
-            puts "\nSorry, that was not a valid entry. Please try again."
+            puts <<-INVALID_ENTRY
+
+            Sorry, that was not a valid entry. Please try again.
+
+            Typing 'menu' at any time will return you to the main menu.
+            Typing 'exit' at any time will end the program.
+            INVALID_ENTRY
             get_user_input
         end
 
@@ -76,7 +80,7 @@ module BreweryCli
                 if go_home
                     main_menu
                     start
-                elsif get_breweries.respond_to?("length") || get_breweries.length == 0
+                elsif get_breweries.respond_to?("length") && get_breweries.length == 0
                     puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location."
                     get_user_input
                 else
@@ -96,18 +100,18 @@ module BreweryCli
                     start
                 elsif valid_brewery?
                     retrieve_brewery
-                elsif valid_zip?
-                    puts "It looks like you entered a zip! Would you like to try searching another location? \nPlease enter Y or N"
-                    get_user_input
-                    if @input == "Y" || @input == "y" || @input == "yes"
-                        puts "Please enter the zip of the location you would like to search."
-                        get_user_input
-                        search_menu_interpreter
-                    elsif @input == "N" || @input == "n" || @input == "no"
-                        puts "Okay. You can see another brewery by entering its number now."
-                        get_user_input
-                        brewery_menu_interpreter
-                    end
+                # elsif valid_zip?
+                #     puts "It looks like you entered a zip! Would you like to try searching another location? \nPlease enter Y or N"
+                #     get_user_input
+                #     if @input == "Y" || @input == "y" || @input == "yes"
+                #         puts "Please enter the zip of the location you would like to search."
+                #         get_user_input
+                #         search_menu_interpreter
+                #     elsif @input == "N" || @input == "n" || @input == "no"
+                #         puts "Okay. You can see another brewery by entering its number now."
+                #         get_user_input
+                #         brewery_menu_interpreter
+                #     end
                 elsif input_not_exit
                     invalid_entry
                 end

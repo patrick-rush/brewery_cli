@@ -1,6 +1,5 @@
 # TODO
 
-# CONSIDER REMOVING THE PART ABOUT ASKING THE USER IF THEY MEANT TO ENTER A ZIP 
 # FIND A WAY TO TELL THE USER WHERE THEY ARE SEARCHING 
 
 
@@ -84,6 +83,7 @@ module BreweryCli
                     puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location."
                     get_user_input
                 else
+                    puts "You are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}."
                     print_breweries
                     brewery_menu
                     get_user_input
@@ -100,18 +100,6 @@ module BreweryCli
                     start
                 elsif valid_brewery?
                     retrieve_brewery
-                # elsif valid_zip?
-                #     puts "It looks like you entered a zip! Would you like to try searching another location? \nPlease enter Y or N"
-                #     get_user_input
-                #     if @input == "Y" || @input == "y" || @input == "yes"
-                #         puts "Please enter the zip of the location you would like to search."
-                #         get_user_input
-                #         search_menu_interpreter
-                #     elsif @input == "N" || @input == "n" || @input == "no"
-                #         puts "Okay. You can see another brewery by entering its number now."
-                #         get_user_input
-                #         brewery_menu_interpreter
-                #     end
                 elsif input_not_exit
                     invalid_entry
                 end

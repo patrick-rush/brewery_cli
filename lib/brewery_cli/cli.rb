@@ -1,17 +1,26 @@
+# TODO
+
+# REFACTOR MAIN MENU INTERPRETER 
+# CLEAN UP BREWERY CLASS 
+# FIX VALID_ZIP? TO NOT ALLOW LETTERS
+# CONSIDER REMOVING THE PART ABOUT ASKING THE USER IF THEY MEANT TO ENTER A ZIP 
+# FIND A WAY TO TELL THE USER WHERE THEY ARE SEARCHING 
+
+
 module BreweryCli
     class CLI
 
         @input = nil
         @switch = nil
 
-        def start
+        def call 
             puts "\nWelcome to the Brewery Database CLI!"
             main_menu
-            start_point
+            start
             credits
         end
 
-        def start_point
+        def start
             while input_not_exit
                 get_user_input
                 main_menu_interpreter
@@ -34,8 +43,7 @@ module BreweryCli
         end 
 
         def valid_zip?
-            int = @input.to_i 
-            int != 0 && int.to_s.length == 5
+            @input.length == 5 && @input.to_i != 0 
         end
 
         def valid_brewery?
@@ -51,22 +59,27 @@ module BreweryCli
             while input_not_exit
                 if go_home
                     main_menu
-                    start_point
-                elsif @input == "1"
-                    @switch = 1
-                    search_menu
+                    start
+                elsif @input == "1" || @input == "2" || @input == "3"
+                    @switch = @input.to_i
+                    search_menu 
                     get_user_input
                     search_menu_interpreter
-                elsif @input == "2"
-                    @switch = 2
-                    search_menu
-                    get_user_input
-                    search_menu_interpreter
-                elsif @input == "3"
-                    @switch = 3
-                    search_menu
-                    get_user_input
-                    search_menu_interpreter 
+                # elsif @input == "1"
+                #     @switch = 1
+                #     search_menu
+                #     get_user_input
+                #     search_menu_interpreter
+                # elsif @input == "2"
+                #     @switch = 2
+                #     search_menu
+                #     get_user_input
+                #     search_menu_interpreter
+                # elsif @input == "3"
+                #     @switch = 3
+                #     search_menu
+                #     get_user_input
+                #     search_menu_interpreter
                 elsif input_not_exit
                     invalid_entry
                 end
@@ -77,9 +90,9 @@ module BreweryCli
             while input_not_exit
                 if go_home
                     main_menu
-                    start_point
+                    start
                 elsif get_breweries.length == 0
-                    puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different state."
+                    puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location."
                     get_user_input
                 else
                     print_breweries
@@ -95,12 +108,11 @@ module BreweryCli
                 if go_home
                     puts "\nPerhaps you'd like to search another location?"
                     main_menu
-                    start_point
+                    start
                 elsif valid_brewery?
-                    @switch = 4
                     retrieve_brewery
                 elsif valid_zip?
-                    puts "It looks like you entered a zip! Would you like to try searching another locations? \nPlease enter Y/N"
+                    puts "It looks like you entered a zip! Would you like to try searching another location? \nPlease enter Y or N"
                     get_user_input
                     if @input == "Y" || @input == "y" || @input == "yes"
                         puts "Please enter the zip of the location you would like to search."
@@ -158,7 +170,7 @@ module BreweryCli
 
             Please enter the number for how you would like to search. 
 
-            Typing 'menu' at any time will return you to the main menu.
+            Typing 'menu' at any time will return you here.
             Typing 'exit' at any time will end the program.
             NEW_MAIN
         end

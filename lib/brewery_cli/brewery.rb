@@ -13,14 +13,6 @@ module BreweryCli
             @@all << self
         end
 
-        # def state=(state)
-        #     @state = State.find_or_create_by_name(state)
-        # end
-
-        # def brewery_type=(brewery_type)
-        #     @brewery_type = BreweryType.find_or_create_by_name(brewery_type)
-        # end
-
         def self.all
             @@all
         end

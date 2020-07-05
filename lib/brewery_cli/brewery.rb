@@ -33,11 +33,6 @@ module BreweryCli
         end
 
         def self.clear
-            # all.each do |brewery| 
-            #     unless cache.include?(brewery) 
-            #         cache << brewery
-            #     end
-            # end
             all.clear
         end
 

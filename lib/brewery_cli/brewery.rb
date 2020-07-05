@@ -1,6 +1,6 @@
 module BreweryCli
     class Brewery
-        attr_accessor :name, :street, :city, :phone, :id, :state, :brewery_type
+        attr_accessor :name, :street, :city, :phone, :state
 
         @@all = []
         
@@ -15,10 +15,6 @@ module BreweryCli
 
         def self.all
             @@all
-        end
-
-        def self.cache
-            @@cache
         end
 
         def self.clear

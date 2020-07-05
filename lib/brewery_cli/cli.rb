@@ -1,44 +1,8 @@
-# TODO
-#     DONE = LOOK INTO FORMATTING IN THE TERMINAL
-#     DONE = MAKE SURE IF THERE ARE NO BREWERIES IN THAT ZIP, IT NOTIFIES YOU
-#     DONE = MAKE IT POSSIBLE TO SEARCH BY STATE
-#     DONE = I THINK I NEED TO MAKE AN INSTANCE VARIABLE THAT KNOWS WHAT MENU TIER WE ARE IN AT ANY GIVEN MOMENT.
-#       THAT WAY I CAN ABSTRACT EACH OF THE MENU INTERPRETERS OR AT LEAST THE PRINT BY AND GET BY METHODS
-#     RETURN A MESSAGE SAYING WHERE THE USER IS SEARCHING
-#     FIX IT SO THAT YOU CAN'T TYPE A LETTER
-#     MAKE IT SO YOU CAN LOOK UP ALL, THAT DOESN'T WORK RIGHT NOW
-#     FOR SOME REASON CACHE IS DOUBLING UP ON ENTRIES. GOTTA FIX THAT
-#     NEED TO ADD ALL OPTION TO THE OTHER MENUS (CURRENTLY ONLY IN MAIN)
-
 module BreweryCli
     class CLI
 
         @input = nil
         @switch = nil
-
-        def get_user_input
-            @input = gets.chomp
-            if @input == "BACKDOOR"
-                binding.pry 
-            end
-        end
-
-        def input_not_exit
-            @input != "exit" && @input != "quit" && @input != "stop" && @input != "end"
-        end
-
-        def valid_zip?
-            @input.length == 5 && @input.to_i != 0
-        end
-
-        def valid_brewery?
-            @input.to_i != 0 && @input.to_i.between?(0, Brewery.all.length) 
-        end
-
-        def invalid_entry
-            puts "\nSorry, that was not a valid entry. Please try again."
-            get_user_input
-        end
 
         def start
             puts "\nWelcome to the Brewery Database CLI!"
@@ -54,34 +18,53 @@ module BreweryCli
             end
         end
 
+        def get_user_input
+            @input = gets.chomp
+            if @input == "BACKDOOR"
+                binding.pry 
+            end
+        end
+
+        def input_not_exit
+            @input != "exit" && @input != "quit" && @input != "stop" && @input != "end"
+        end
+
+        def go_home
+            @input == "menu" || @input == "home" || @input == "back"
+        end 
+
+        def valid_zip?
+            int = @input.to_i 
+            int != 0 && int.to_s.length == 5
+        end
+
+        def valid_brewery?
+            @input.to_i != 0 && @input.to_i.between?(0, Brewery.all.length) 
+        end
+
+        def invalid_entry
+            puts "\nSorry, that was not a valid entry. Please try again."
+            get_user_input
+        end
+
         def main_menu_interpreter
             while input_not_exit
-                if @input == "menu"
+                if go_home
                     main_menu
                     start_point
-                elsif @input == "all"
-                    if Brewery.cache.length > 0
-                        @switch = 5
-                        print_breweries
-                        get_user_input
-                        retrieve_brewery
-                    else
-                        puts "\nThere are no breweries yet! Please search and come back later."
-                        start_point
-                    end
                 elsif @input == "1"
                     @switch = 1
-                    search_by_zip_menu
+                    search_menu
                     get_user_input
                     search_menu_interpreter
                 elsif @input == "2"
                     @switch = 2
-                    search_by_city_menu
+                    search_menu
                     get_user_input
                     search_menu_interpreter
                 elsif @input == "3"
                     @switch = 3
-                    search_by_state_menu
+                    search_menu
                     get_user_input
                     search_menu_interpreter 
                 elsif input_not_exit
@@ -92,7 +75,7 @@ module BreweryCli
 
         def search_menu_interpreter 
             while input_not_exit
-                if @input == "menu"
+                if go_home
                     main_menu
                     start_point
                 elsif get_breweries.length == 0
@@ -107,10 +90,9 @@ module BreweryCli
             end
         end
 
-
         def brewery_menu_interpreter
             while input_not_exit
-                if @input == "menu"
+                if go_home
                     puts "\nPerhaps you'd like to search another location?"
                     main_menu
                     start_point
@@ -142,6 +124,7 @@ module BreweryCli
                     Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
                 else
                     invalid_entry
+                    get_breweries
                 end
             elsif @switch == 2
                 Brewery.load_by_city(@input)
@@ -149,8 +132,6 @@ module BreweryCli
             elsif @switch == 3
                 Brewery.load_by_state(@input)
                 Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
-            elsif @switch == 5
-                Brewery.cache.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
             end    
         end
 
@@ -177,61 +158,51 @@ module BreweryCli
 
             Please enter the number for how you would like to search. 
 
-            Typing 'all' at any time will return a list of all the breweries you have seen so far. 
             Typing 'menu' at any time will return you to the main menu.
             Typing 'exit' at any time will end the program.
             NEW_MAIN
         end
 
-        def search_by_zip_menu
-            puts <<-MENU
-            
-            Please enter the zip of the location you would like to search.
-            Typing 'menu' at any time will return you to the main menu.
-            Typing 'exit' at any time will end the program.
-            MENU
-        end
-
-        def search_by_city_menu
-            puts <<-MENU
-            
-            Please enter the name of the city you would like to search (do not include the state).
-            Typing 'menu' at any time will return you to the main menu.
-            Typing 'exit' at any time will end the program.
-            MENU
-        end
-
-        def search_by_state_menu
-            puts <<-MENU
-            
-            Please enter the name of the state you would like to search.
-            Typing 'menu' at any time will return you to the main menu.
-            Typing 'exit' at any time will end the program.
-            MENU
-        end
-
-        def print_brewery_info(index)
-            if @switch == 4
-                brewery = Brewery.all[index]
-            elsif @switch == 5
-                brewery = Brewery.cache[index]
+        def search_menu
+            if @switch == 1
+                x = "zip"
+                y = "location"
+            elsif @switch == 2
+                x = "name"
+                y = "city"
+                z = " (do not include the state)"
+            elsif @switch == 3
+                x = "name"
+                y = "state"
             end
-            puts <<-INFO
-            --------------------
-            Name: #{brewery.name}
-            Location: #{brewery.street}, #{brewery.city}, #{brewery.state.name}
-            Phone: (#{brewery.phone[0..2]}) #{brewery.phone[3..5]}-#{brewery.phone[6..9]}
-            --------------------
-            INFO
+            puts <<-MENU
+            
+            Please enter the #{x} of the #{y} you would like to search#{z}. 
+            Typing 'menu' at any time will return you to the main menu.
+            Typing 'exit' at any time will end the program.
+            MENU
         end
 
         def brewery_menu
             puts <<-BREWERY_MENU
 
             Please choose a brewery by entering its number.
+
             Typing 'menu' at any time will return you to the main menu.
             Typing 'exit' at any time will end the program.
             BREWERY_MENU
+        end
+
+        def print_brewery_info(index)
+            brewery = Brewery.all[index]
+            puts <<-INFO
+
+            --------------------
+            Name: #{brewery.name}
+            Location: #{brewery.street}, #{brewery.city}, #{brewery.state}
+            Phone: (#{brewery.phone[0..2]}) #{brewery.phone[3..5]}-#{brewery.phone[6..9]}
+            --------------------
+            INFO
         end
 
         def nested_menu

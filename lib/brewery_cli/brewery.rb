@@ -1,10 +1,8 @@
 module BreweryCli
     class Brewery
-        attr_accessor :name, :street, :city, :phone, :id
-        attr_reader :state, :brewery_name, :brewery_type
+        attr_accessor :name, :street, :city, :phone, :id, :state, :brewery_type
 
         @@all = []
-        @@cache = []
         
         def initialize(attributes={}) 
             attributes.each do |attribute, value| 
@@ -13,16 +11,15 @@ module BreweryCli
                 end
             end
             @@all << self
-            @@cache << self
         end
 
-        def state=(state)
-            @state = State.find_or_create_by_name(state)
-        end
+        # def state=(state)
+        #     @state = State.find_or_create_by_name(state)
+        # end
 
-        def brewery_type=(brewery_type)
-            @brewery_type = BreweryType.find_or_create_by_name(brewery_type)
-        end
+        # def brewery_type=(brewery_type)
+        #     @brewery_type = BreweryType.find_or_create_by_name(brewery_type)
+        # end
 
         def self.all
             @@all

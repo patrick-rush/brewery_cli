@@ -1,8 +1,3 @@
-# TODO
-
-# FIND A WAY TO TELL THE USER WHERE THEY ARE SEARCHING 
-
-
 module BreweryCli
     class CLI
 
@@ -25,9 +20,9 @@ module BreweryCli
 
         def get_user_input
             @input = gets.chomp
-            if @input == "BACKDOOR"
-                binding.pry 
-            end
+            # if @input == "BACKDOOR"
+            #     binding.pry 
+            # end
         end
 
         def input_not_exit
@@ -113,7 +108,6 @@ module BreweryCli
                     Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
                 else
                     invalid_entry
-                    # get_breweries
                 end
             elsif @switch == 2
                 Brewery.load_by_city(@input)

@@ -1,8 +1,6 @@
 # BreweryCli
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/brewery_cli`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Welcome! This Brewery CLI program allows you to search breweries in the United States using a zip code, the name of a city, or the name of a state. Additionally, you can look up information such as the address and phone number for any breweries you find. I hope you enjoy using it and find it helpful!
 
 ## Installation
 
@@ -22,7 +20,7 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Run `bin/setup` to install dependencies. To run the program, run `bin/brewery_cli` and follow the prompts. 
 
 ## Development
 
@@ -32,7 +30,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/<github username>/brewery_cli. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/<github username>/brewery_cli/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/<patrick-rush>/brewery_cli. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/<github username>/brewery_cli/blob/master/CODE_OF_CONDUCT.md).
 
 
 ## License

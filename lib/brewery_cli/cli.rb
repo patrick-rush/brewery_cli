@@ -1,10 +1,9 @@
 # TODO
 
-# REFACTOR MAIN MENU INTERPRETER 
-# CLEAN UP BREWERY CLASS 
 # FIX VALID_ZIP? TO NOT ALLOW LETTERS
 # CONSIDER REMOVING THE PART ABOUT ASKING THE USER IF THEY MEANT TO ENTER A ZIP 
 # FIND A WAY TO TELL THE USER WHERE THEY ARE SEARCHING 
+# FIGURE OUT WHY EXIT DOESN'T WORK AFTER INVALID ENTRY
 
 
 module BreweryCli
@@ -43,7 +42,8 @@ module BreweryCli
         end 
 
         def valid_zip?
-            @input.length == 5 && @input.to_i != 0 
+            int = @input.to_i
+            int != 0 && int.to_s.length == 5
         end
 
         def valid_brewery?
@@ -65,21 +65,6 @@ module BreweryCli
                     search_menu 
                     get_user_input
                     search_menu_interpreter
-                # elsif @input == "1"
-                #     @switch = 1
-                #     search_menu
-                #     get_user_input
-                #     search_menu_interpreter
-                # elsif @input == "2"
-                #     @switch = 2
-                #     search_menu
-                #     get_user_input
-                #     search_menu_interpreter
-                # elsif @input == "3"
-                #     @switch = 3
-                #     search_menu
-                #     get_user_input
-                #     search_menu_interpreter
                 elsif input_not_exit
                     invalid_entry
                 end
@@ -91,7 +76,7 @@ module BreweryCli
                 if go_home
                     main_menu
                     start
-                elsif get_breweries.length == 0
+                elsif get_breweries.respond_to?("length") || get_breweries.length == 0
                     puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location."
                     get_user_input
                 else
@@ -136,7 +121,7 @@ module BreweryCli
                     Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
                 else
                     invalid_entry
-                    get_breweries
+                    # get_breweries
                 end
             elsif @switch == 2
                 Brewery.load_by_city(@input)

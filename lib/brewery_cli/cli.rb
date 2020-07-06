@@ -182,6 +182,7 @@ module BreweryCli
             Name: #{brewery.name}
             Location: #{brewery.street}, #{brewery.city}, #{brewery.state}
             Phone: (#{brewery.phone[0..2]}) #{brewery.phone[3..5]}-#{brewery.phone[6..9]}
+            Website: #{brewery.website_url}
             --------------------
             INFO
         end

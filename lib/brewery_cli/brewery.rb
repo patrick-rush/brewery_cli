@@ -1,6 +1,6 @@
 module BreweryCli
     class Brewery
-        attr_accessor :name, :street, :city, :phone, :state, :brewery_type
+        attr_accessor :name, :street, :city, :phone, :state, :brewery_type, :website_url
 
         @@all = []
         

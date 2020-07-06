@@ -6,13 +6,13 @@ module BreweryCli
 
         def call 
             puts "\nWelcome to the Brewery Database CLI!"
-            main_menu
             start
             credits
         end
 
         def start
             while input_not_exit
+                main_menu
                 get_user_input
                 main_menu_interpreter
             end
@@ -56,7 +56,6 @@ module BreweryCli
         def main_menu_interpreter
             while input_not_exit
                 if go_home
-                    main_menu
                     start
                 elsif @input == "1" || @input == "2" || @input == "3"
                     @switch = @input.to_i
@@ -72,12 +71,11 @@ module BreweryCli
         def search_menu_interpreter 
             while input_not_exit
                 if go_home
-                    main_menu
                     start
                 elsif get_breweries.respond_to?("length") && get_breweries.length == 0
                     puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location."
                     get_user_input
-                else
+                elsif input_not_exit && get_breweries.respond_to?("length") && get_breweries.length > 0
                     puts "You are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}."
                     print_breweries
                     brewery_menu
@@ -91,7 +89,6 @@ module BreweryCli
             while input_not_exit
                 if go_home
                     puts "\nPerhaps you'd like to search another location?"
-                    main_menu
                     start
                 elsif valid_brewery?
                     retrieve_brewery
@@ -108,6 +105,7 @@ module BreweryCli
                     Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
                 else
                     invalid_entry
+                    search_menu_interpreter
                 end
             elsif @switch == 2
                 Brewery.load_by_city(@input)

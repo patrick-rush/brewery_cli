@@ -3,9 +3,10 @@ module BreweryCli
 
         @input = nil
         @switch = nil
+        @pride = nil
 
         def call 
-            puts "\nWelcome to the Brewery Database CLI!"
+            color("\nWelcome to the Brewery Database CLI!")
             start
             credits
         end
@@ -19,10 +20,16 @@ module BreweryCli
         end
 
         def get_user_input
-            @input = gets.chomp
-            # if @input == "BACKDOOR"
-            #     binding.pry 
-            # end
+            @input = gets.chomp.downcase
+            if @input == "backdoor"
+                binding.pry 
+            end
+            if @input == "pride mode"
+                @pride = 1
+                color("Welcome to Pride Mode!")
+                start
+            end
+
         end
 
         def input_not_exit?
@@ -43,13 +50,11 @@ module BreweryCli
         end
 
         def invalid_entry
-            puts <<-INVALID_ENTRY
-
-            Sorry, that was not a valid entry. Please try again.
-
-            Typing 'menu' at any time will return you to the main menu.
-            Typing 'exit' at any time will end the program.
-            INVALID_ENTRY
+            puts ""
+            color("Sorry, that was not a valid entry. Please try again.")
+            puts ""
+            color("Typing 'menu' at any time will return you to the main menu.")
+            color("Typing 'exit' at any time will end the program.")
             get_user_input
         end
 
@@ -73,10 +78,10 @@ module BreweryCli
                 if go_home?
                     start
                 elsif get_breweries.respond_to?("length") && get_breweries.length == 0
-                    puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location."
+                    color("\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location.")
                     get_user_input
                 elsif input_not_exit? && get_breweries.respond_to?("length") && get_breweries.length > 0
-                    puts "You are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}.\n"
+                    color("You are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}.\n")
                     print_breweries
                     brewery_menu
                     get_user_input
@@ -88,7 +93,7 @@ module BreweryCli
         def brewery_menu_interpreter
             while input_not_exit?
                 if go_home?
-                    puts "\nPerhaps you'd like to search another location?"
+                    color("\nPerhaps you'd like to search another location?")
                     start
                 elsif valid_brewery?
                     retrieve_brewery
@@ -117,7 +122,7 @@ module BreweryCli
         end
 
         def print_breweries 
-            get_breweries.each.with_index(1) { |brewery, i| puts "#{i}. #{brewery}"}
+            get_breweries.each.with_index(1) { |brewery, i| color("#{i}. #{brewery}")}
         end
 
         def retrieve_brewery
@@ -129,19 +134,17 @@ module BreweryCli
         end
 
         def main_menu
-            puts <<-NEW_MAIN
-
-            There are three ways you can search the Brewery Database!
-            
-            1. By zip code
-            2. By city name
-            3. By state name
-
-            Please enter the number for how you would like to search. 
-
-            Typing 'menu' at any time will return you here.
-            Typing 'exit' at any time will end the program.
-            NEW_MAIN
+            puts ""
+            color("There are three ways you can search the Brewery Database!")
+            puts ""
+            color("1. By zip code")
+            color("2. By city name")
+            color("3. By state name")
+            puts ""
+            color("Please enter the number for how you would like to search.")
+            puts ""
+            color("Typing 'menu' at any time will return you here.")
+            color("Typing 'exit' at any time will end the program.")
         end
 
         def search_menu
@@ -156,59 +159,74 @@ module BreweryCli
                 x = "name"
                 y = "state"
             end
-            puts <<-MENU
-            
-            Please enter the #{x} of the #{y} you would like to search#{z}. 
-            Typing 'menu' at any time will return you to the main menu.
-            Typing 'exit' at any time will end the program.
-            MENU
+            puts ""
+            color("Please enter the #{x} of the #{y} you would like to search#{z}.")
+            puts ""
+            color("Typing 'menu' at any time will return you to the main menu.")
+            color("Typing 'exit' at any time will end the program.")
         end
 
         def brewery_menu
-            puts <<-BREWERY_MENU
-
-            Please choose a brewery by entering its number.
-
-            Typing 'menu' at any time will return you to the main menu.
-            Typing 'exit' at any time will end the program.
-            BREWERY_MENU
+            puts ""
+            color("Please choose a brewery by entering its number.")
+            puts ""
+            color("Typing 'menu' at any time will return you to the main menu.")
+            color("Typing 'exit' at any time will end the program.")
         end
 
         def print_brewery_info(index)
             brewery = Brewery.all[index]
-            puts <<-INFO
-
-            --------------------
-            Name: #{brewery.name}
-            Location: #{brewery.street}, #{brewery.city}, #{brewery.state}
-            Phone: (#{brewery.phone[0..2]}) #{brewery.phone[3..5]}-#{brewery.phone[6..9]}
-            Website: #{brewery.website_url}
-            --------------------
-            INFO
+            puts ""
+            color("--------------------")
+            color("Name: #{brewery.name}")
+            color("Location: #{brewery.street}, #{brewery.city}, #{brewery.state}")
+            color("Phone: (#{brewery.phone[0..2]}) #{brewery.phone[3..5]}-#{brewery.phone[6..9]}")
+            color("Website: #{brewery.website_url}")
+            color("--------------------")
         end
 
         def nested_menu
-            puts <<-NESTED_MENU
-
-            You can see another brewery by entering its number now.
-            or
-            Typing 'menu' at any time will return you to the main menu.
-            Typing 'exit' at any time will end the program.
-            NESTED_MENU
+            puts ""
+            color("You can see another brewery by entering its number now.")
+            color("or")
+            color("Typing 'menu' at any time will return you to the main menu.")
+            color("Typing 'exit' at any time will end the program.")
         end
 
         def credits
-            puts <<-CREDITS
+            puts ""
+            color("--------------------")
+            color("Thank you for using the Brewery Database CLI!")
+            color("This program was built by Patrick Rush for Flatiron School (2020).")
+            color("This program uses the Open Brewery Database API which can be found at:")
+            color("  https://www.openbrewerydb.org/")
+            color("Cheers!")
+            color("--------------------")
+            puts ""
+        end
 
-            --------------------
-            Thank you for using the Brewery Database CLI!
-            This program was built by Patrick Rush for Flatiron School (2020).
-            This program uses the Open Brewery Database API which can be found at:
-                https://www.openbrewerydb.org/
-            Cheers!
-            --------------------
-            
-            CREDITS
+        def color(string)
+            if @pride == nil
+                puts "#{string}"
+            else
+                if @pride == 13
+                    @pride = 1
+                end
+                if @pride == 1 || @pride == 2
+                    puts "#{string}".colorize(:light_red)
+                elsif @pride == 3 || @pride == 4
+                    puts "#{string}".colorize(:light_yellow)
+                elsif @pride == 5 || @pride == 6
+                    puts "#{string}".colorize(:light_green)
+                elsif @pride == 7 || @pride == 8
+                    puts "#{string}".colorize(:light_blue)
+                elsif @pride == 9 || @pride == 10
+                    puts "#{string}".colorize(:light_cyan)
+                elsif @pride == 11 || @pride == 12
+                    puts "#{string}".colorize(:light_magenta)
+                end
+                @pride += 1
+            end
         end
 
     end

@@ -11,7 +11,7 @@ module BreweryCli
         end
 
         def start
-            while input_not_exit
+            while input_not_exit?
                 main_menu
                 get_user_input
                 main_menu_interpreter
@@ -25,11 +25,11 @@ module BreweryCli
             # end
         end
 
-        def input_not_exit
+        def input_not_exit?
             @input != "exit" && @input != "quit" && @input != "stop" && @input != "end"
         end
 
-        def go_home
+        def go_home?
             @input == "menu" || @input == "home" || @input == "back"
         end 
 
@@ -54,29 +54,29 @@ module BreweryCli
         end
 
         def main_menu_interpreter
-            while input_not_exit
-                if go_home
+            while input_not_exit?
+                if go_home?
                     start
                 elsif @input == "1" || @input == "2" || @input == "3"
                     @switch = @input.to_i
                     search_menu 
                     get_user_input
                     search_menu_interpreter
-                elsif input_not_exit
+                elsif input_not_exit?
                     invalid_entry
                 end
             end
         end
 
         def search_menu_interpreter 
-            while input_not_exit
-                if go_home
+            while input_not_exit?
+                if go_home?
                     start
                 elsif get_breweries.respond_to?("length") && get_breweries.length == 0
                     puts "\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location."
                     get_user_input
-                elsif input_not_exit && get_breweries.respond_to?("length") && get_breweries.length > 0
-                    puts "You are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}."
+                elsif input_not_exit? && get_breweries.respond_to?("length") && get_breweries.length > 0
+                    puts "You are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}.\n"
                     print_breweries
                     brewery_menu
                     get_user_input
@@ -86,13 +86,13 @@ module BreweryCli
         end
 
         def brewery_menu_interpreter
-            while input_not_exit
-                if go_home
+            while input_not_exit?
+                if go_home?
                     puts "\nPerhaps you'd like to search another location?"
                     start
                 elsif valid_brewery?
                     retrieve_brewery
-                elsif input_not_exit
+                elsif input_not_exit?
                     invalid_entry
                 end
             end
@@ -199,6 +199,7 @@ module BreweryCli
 
         def credits
             puts <<-CREDITS
+
             --------------------
             Thank you for using the Brewery Database CLI!
             This program was built by Patrick Rush for Flatiron School (2020).
@@ -206,6 +207,7 @@ module BreweryCli
                 https://www.openbrewerydb.org/
             Cheers!
             --------------------
+            
             CREDITS
         end
 

@@ -3,7 +3,6 @@ module BreweryCli
 
         @input = nil
         @switch = nil
-        @pride = nil
 
         def call 
             color("\nWelcome to the Brewery Database CLI!")
@@ -223,17 +222,17 @@ module BreweryCli
                 if @pride == 13
                     @pride = 1
                 end
-                if @pride == 1 || @pride == 2
+                if @pride.between?(1, 2)
                     puts "#{string}".colorize(:light_red)
-                elsif @pride == 3 || @pride == 4
+                elsif @pride.between?(3, 4)
                     puts "#{string}".colorize(:light_yellow)
-                elsif @pride == 5 || @pride == 6
+                elsif @pride.between?(5, 6)
                     puts "#{string}".colorize(:light_green)
-                elsif @pride == 7 || @pride == 8
+                elsif @pride.between?(7, 8)
                     puts "#{string}".colorize(:light_cyan)
-                elsif @pride == 9 || @pride == 10
+                elsif @pride.between?(9, 10)
                     puts "#{string}".colorize(:light_blue)
-                elsif @pride == 11 || @pride == 12
+                elsif @pride.between?(11, 12)
                     puts "#{string}".colorize(:light_magenta)
                 end
                 @pride += 1

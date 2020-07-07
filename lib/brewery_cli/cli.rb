@@ -82,7 +82,13 @@ module BreweryCli
                     color("\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location.")
                     get_user_input
                 elsif input_not_exit? && get_breweries.respond_to?("length") && get_breweries.length > 0
-                    color("\nYou are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}.\n\n")
+                    if @switch == 3
+                        color("\nYou are viewing breweries in #{Brewery.all.first.state}.")
+                        puts ""
+                    else
+                        color("\nYou are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}.")
+                        puts ""
+                    end
                     print_breweries
                     brewery_menu
                     get_user_input

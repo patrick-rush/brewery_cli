@@ -230,9 +230,9 @@ module BreweryCli
                 elsif @pride == 5 || @pride == 6
                     puts "#{string}".colorize(:light_green)
                 elsif @pride == 7 || @pride == 8
-                    puts "#{string}".colorize(:light_blue)
-                elsif @pride == 9 || @pride == 10
                     puts "#{string}".colorize(:light_cyan)
+                elsif @pride == 9 || @pride == 10
+                    puts "#{string}".colorize(:light_blue)
                 elsif @pride == 11 || @pride == 12
                     puts "#{string}".colorize(:light_magenta)
                 end

@@ -26,7 +26,7 @@ module BreweryCli
             end
             if @input == "pride mode"
                 @pride = 1
-                color("Welcome to Pride Mode!")
+                color("\nWelcome to Pride Mode!")
                 start
             end
 
@@ -55,6 +55,7 @@ module BreweryCli
             puts ""
             color("Typing 'menu' at any time will return you to the main menu.")
             color("Typing 'exit' at any time will end the program.")
+            puts ""
             get_user_input
         end
 
@@ -81,7 +82,7 @@ module BreweryCli
                     color("\nUh-oh! It looks like there are no entries for that location! \nTry entering a different location.")
                     get_user_input
                 elsif input_not_exit? && get_breweries.respond_to?("length") && get_breweries.length > 0
-                    color("You are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}.\n")
+                    color("\nYou are viewing breweries in and around #{Brewery.all.first.city}, #{Brewery.all.first.state}.\n\n")
                     print_breweries
                     brewery_menu
                     get_user_input
@@ -145,6 +146,7 @@ module BreweryCli
             puts ""
             color("Typing 'menu' at any time will return you here.")
             color("Typing 'exit' at any time will end the program.")
+            puts ""
         end
 
         def search_menu
@@ -164,6 +166,7 @@ module BreweryCli
             puts ""
             color("Typing 'menu' at any time will return you to the main menu.")
             color("Typing 'exit' at any time will end the program.")
+            puts ""
         end
 
         def brewery_menu
@@ -172,6 +175,7 @@ module BreweryCli
             puts ""
             color("Typing 'menu' at any time will return you to the main menu.")
             color("Typing 'exit' at any time will end the program.")
+            puts ""
         end
 
         def print_brewery_info(index)
@@ -191,6 +195,7 @@ module BreweryCli
             color("or")
             color("Typing 'menu' at any time will return you to the main menu.")
             color("Typing 'exit' at any time will end the program.")
+            puts ""
         end
 
         def credits

@@ -19,10 +19,10 @@ module BreweryCli
         end
 
         def get_user_input
-            @input = gets.chomp
-            # if @input == "BACKDOOR"
-            #     binding.pry 
-            # end
+            @input = gets.chomp.downcase
+            if @input == "backdoor"
+                binding.pry 
+            end
         end
 
         def input_not_exit?
@@ -102,17 +102,17 @@ module BreweryCli
             if @switch == 1
                 if valid_zip?
                     Brewery.load_by_zip(@input)
-                    Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
+                    Brewery.sort.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
                 else
                     invalid_entry
                     search_menu_interpreter
                 end
             elsif @switch == 2
                 Brewery.load_by_city(@input)
-                Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
+                Brewery.sort.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
             elsif @switch == 3
                 Brewery.load_by_state(@input)
-                Brewery.all.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
+                Brewery.sort.collect { |brewery| "#{brewery.name} - #{brewery.city}" }
             end    
         end
 

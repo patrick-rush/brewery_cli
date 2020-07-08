@@ -48,5 +48,9 @@ module BreweryCli
         def self.clean_up_breweries
             all.reject! { |brewery| brewery.name == nil || brewery.brewery_type == "planning"}
         end
+
+        def self.sort
+            all.sort_by {|brewery| brewery.name }
+        end
     end
 end
